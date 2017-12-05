@@ -64,7 +64,8 @@ def plot(
         simTitles = [],
         simColors = [],
         plotType = '3plots',
-        simDistOffset = []
+        simDistOffset = [],
+        distanceXlim = []
 ):
     #Handling Offset for '3plotsWoffset'
     maxDistrInt = 0
@@ -171,45 +172,3 @@ def plot(
     #bbox = fig.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
     #width, height, dpi = bbox.width*fig.dpi, bbox.height*fig.dpi, fig.dpi
     fig.show()
-# Enter the folder name for DeerAnalysis files. You can also leave this empty and add folder to file names
-deerFolder = '/media/hadi/64F403B42DC6F4B8/Work/RUB/Data/TM287-288/Nanobody/TM54-271_Nb71/evalHadi'
-# Enter DeerAnalysis files list here
-deerFiles = ['/media/hadi/64F403B42DC6F4B8/Work/RUB/Data/TM287-288/TM54-271/evalHadi/20171005_TM54-271-WT_apo_d2_2200ns_DEER_bckg.dat','/media/hadi/64F403B42DC6F4B8/Work/RUB/Data/TM287-288/TM54-271/evalHadi/20171016_TM54-271-WT_VO_3min50C_d2_2200ns_DEER_bckg.dat','20171122_TM54-271-WT_apo_d2_2200ns_DEER_bckg.dat','20171124_TM54-271_Nb71_GdDOTA_ATP-Mg_2200ns_NO-NO_DEER_pause_bckg.dat']
-# Enter titles if you want
-deerTitles = ['apo','VO','apo+Nb','ATP-Mg+Nb']
-# And colors if you want
-deerColors = ['cyan','magenta','blue','red']
-# Offset for time trace and form factor
-offsetArr = [0, .2, .3, .4]
-# upper panel or lower panel in distance dist. (only used when using plotType='3plotsWoffset')
-deerDistOffset = [0, 1, 0, 1]
-# Enter the folder name for simulation files. You can also leave this empty and add folder to file names
-simFolder = '/mnt/RUBfileShare/PDB/TM287-288/DistanceCalc/'
-# Simulations file names
-simFiles = ['apo_Inward/extracellular_new/[4Q4H](A){1}271_[4Q4H](A){1}54_distr.dat','OF_nanobody_2017_woNanobody/[1](A){1}271_[1](A){1}54_distr.dat']
-# Titles for simulation
-simTitles = ['4Q4H apo crystal','2017 crystal (Nb removed)']
-# Simulations colors
-simColors = ['black','gray']
-# upper panel or lower panel in distance dist. (only used when using plotType='3plotsWoffset')
-simDistOffset = [0, 1]
-# x-range for distance distribution plots. You can also leave this empty
-distanceXlim = [1,8]
-# Finally, we call the function to plot
-plot(
-        deerFolder = deerFolder,
-        filesArr = deerFiles,
-        titlesArr = deerTitles,
-        deerColors = deerColors,
-        backgroundColors = [], # Color array for backgrounds 
-        offsetArr = offsetArr,
-        mLineWidthArr = [], # LW for all plots
-        oLineWidthArr = [], # LW for time trace and form factor offsets
-        deerDistOffset = deerDistOffset,
-        simFolder = simFolder,
-        simFiles = simFiles,
-        simTitles = simTitles,
-        simColors = simColors,
-        plotType='3plotsWoffset', #'4plots','3plots' and '3plotsWoffset'
-        simDistOffset = simDistOffset
-)

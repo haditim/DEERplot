@@ -171,4 +171,4 @@ def plot(
     #fig.set_size_inches(30, fig.get_figheight(), forward=True)
     #bbox = fig.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
     #width, height, dpi = bbox.width*fig.dpi, bbox.height*fig.dpi, fig.dpi
-    fig.show()
+    plt.show(block=True)

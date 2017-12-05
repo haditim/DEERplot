@@ -54,3 +54,9 @@ plot(
         distanceXlim = [1.3,8]
 )
 ```
+If you do not want to copy DEERplot_noGUI.py to every folder you can put it somewhere and do the following on top of your python file:
+``` python
+import sys
+sys.path.insert(0, '/mnt/RUBfileShare/Codes/Python/DEERplot/')
+from DEERplot_noGUI import *
+```

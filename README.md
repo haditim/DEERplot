@@ -56,6 +56,7 @@ plot(
         distanceXlim = [1.3,8],
         suptitle = "TM287/288 WT", #title to be shown on top of all
         plotFolder = plotFolder, # folder for saving the plot files (png, pdf and eps)
+	rmFitDistr = [0], # remove some from fit plot and distance plot (for when you do not have a signal but want to she the primary)
 )
 ```
 If you do not want to copy DEERplot_noGUI.py to every folder you can put it somewhere and do the following on top of your python file:

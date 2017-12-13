@@ -4,7 +4,7 @@ import os
 from numpy import *
 from collections import namedtuple
 import datetime
-#import time
+import time
 import sys
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib import style
@@ -47,7 +47,8 @@ class fn():
             self.bckg_ax = loadtxt(os.path.join(self.folder, self.bckg_file), unpack=True)
             self.fit_ax = loadtxt(os.path.join(self.folder, self.fit_file), unpack=True)
             self.distr_ax = loadtxt(os.path.join(self.folder, self.distr_file), unpack=True)
-            #self.res_lines = [line.rstrip('\n') for line in open(os.path.join(self.folder, self.res_file))]
+        print self.title, ": ",trapz(self.distr_ax[1], x=self.distr_ax[0]),len(self.distr_ax[1])
+        #self.res_lines = [line.rstrip('\n') for line in open(os.path.join(self.folder, self.res_file))]
 
 def plot(
         deerFolder = '',
@@ -65,7 +66,9 @@ def plot(
         simColors = [],
         plotType = '3plots',
         simDistOffset = [],
-        distanceXlim = []
+        distanceXlim = [],
+        suptitle = '',
+        plotFolder = os.path.realpath(__file__),
 ):
     #Handling Offset for '3plotsWoffset'
     maxDistrInt = 0
@@ -74,7 +77,7 @@ def plot(
             for i, val in enumerate(filesArr):
                 try:
                     data = fn(val, deerFolder)
-                    intMax = max(data.distr_ax[1]/(sum(data.distr_ax[1])*len(data.distr_ax[1])))
+                    intMax = max(data.distr_ax[1]/((trapz(data.distr_ax[1], x=data.distr_ax[0])/len(data.distr_ax[1]))))
                     maxDistrInt = intMax if intMax>maxDistrInt else maxDistrInt
                 except:
                     print "I could not find the file: ",val," ignoring this entry ..."
@@ -83,7 +86,7 @@ def plot(
             for i, val in enumerate(simFiles):
                 try:
                     data = fn(val, simFolder, dataType='sim')
-                    intMax = max(data.distr_ax[1]/(sum(data.distr_ax[1])*len(data.distr_ax[1])))
+                    intMax = max(data.distr_ax[1]/((trapz(data.distr_ax[1], x=data.distr_ax[0])/len(data.distr_ax[1]))))
                     maxDistrInt = intMax if intMax>maxDistrInt else maxDistrInt
                 except:
                     print "I could not find the file: ",val," ignoring this entry ..."
@@ -93,12 +96,14 @@ def plot(
     if plotType == '4plots':
         fig, ((ax0, ax1), (ax2, ax3)) = plt.subplots(nrows=2, ncols=2)
         fig.set_size_inches(14.4, 9.6, forward=True)
+        st = fig.suptitle(suptitle, fontsize="x-large")
     elif plotType == '3plots' or plotType == '3plotsWoffset':
         fig = plt.figure()
         ax0 = plt.subplot2grid((2,2),(0,0))
         ax1 = plt.subplot2grid((2,2),(1,0))
         ax2 = plt.subplot2grid((2,2),(0,1), rowspan=2)
         fig.set_size_inches(14.4, 9.6, forward=True)
+        st = fig.suptitle(suptitle, fontsize="x-large")
     if filesArr:
         for i, val in enumerate(filesArr):
             try:
@@ -139,7 +144,7 @@ def plot(
             ax1.set_xlim(0,max_x)
             ax1.set_ylim(min_y-.02,max_y+.02)
             ax1.set_title('Form factor + fitted distance function')
-            ax2.plot(data.distr_ax[0],data.distr_ax[1]/(sum(data.distr_ax[1])*len(data.distr_ax[1]))+distrOff, color="%s" % Color(colMain), linewidth=mLineWidth)
+            ax2.plot(data.distr_ax[0],data.distr_ax[1]/((trapz(data.distr_ax[1], x=data.distr_ax[0])/len(data.distr_ax[1])))+distrOff, color="%s" % Color(colMain), linewidth=mLineWidth)
             ax2.set_ylabel('P(r)', weight='bold')
             ax2.set_xlabel(r'distance [$nm$]', weight='bold')
             ax2.set_title('Distance distribution normalized to area')
@@ -163,12 +168,15 @@ def plot(
             mLineWidth = mLineWidthArr[i] if len(mLineWidthArr)==len(filesArr) else 4
             title = simTitles[i] if len(simTitles)==len(simFiles) else data.title.replace('_',' ')
             distrOffSim = simDistOffset[i]*maxDistrInt if len(simDistOffset)==len(simFiles) else 0
-            ax2.bar(data.distr_ax[0],data.distr_ax[1]/(sum(data.distr_ax[1])*len(data.distr_ax[1])), label=title, color="%s" % Color(colMain), linewidth=mLineWidth, alpha=0.4, width=      data.distr_ax[0][1]-data.distr_ax[0][0], bottom=distrOffSim)
+            ax2.bar(data.distr_ax[0],data.distr_ax[1]/((trapz(data.distr_ax[1], x=data.distr_ax[0])/len(data.distr_ax[1]))), label=title, color="%s" % Color(colMain), linewidth=mLineWidth, alpha=0.2, width=      data.distr_ax[0][1]-data.distr_ax[0][0], bottom=distrOffSim)
             ax2.legend(loc='upper center', ncol=1, fontsize=8, frameon=True)
             if plotType == '4plots':
-                ax3.bar(data.distr_ax[0],data.distr_ax[1]/max(data.distr_ax[1]), label=title, color="%s" % Color(colMain), linewidth=mLineWidth, alpha=0.4, width=data.distr_ax[0][1]-data.distr_ax[0][0])
+                ax3.bar(data.distr_ax[0],data.distr_ax[1]/max(data.distr_ax[1]), label=title, color="%s" % Color(colMain), linewidth=mLineWidth, alpha=0.2, width=data.distr_ax[0][1]-data.distr_ax[0][0])
             
     #fig.set_size_inches(30, fig.get_figheight(), forward=True)
     #bbox = fig.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
     #width, height, dpi = bbox.width*fig.dpi, bbox.height*fig.dpi, fig.dpi
+    fig.savefig(os.path.join(os.path.dirname(plotFolder),time.strftime("%Y%m%d_")+suptitle+"PLOT.png"))
+    fig.savefig(os.path.join(os.path.dirname(plotFolder),time.strftime("%Y%m%d_")+suptitle+"PLOT.pdf"))
+    fig.savefig(os.path.join(os.path.dirname(plotFolder),time.strftime("%Y%m%d_")+suptitle+"PLOT.eps"))
     plt.show(block=True)

@@ -34,6 +34,7 @@ simColors = ['black']
 simDistOffset = [0]
 # x-range for distance distribution plots. You can also leave this empty
 distanceXlim = [1,8]
+plotFolder = os.path.realpath(__file__)
 # Finally, we call the function to plot
 plot(
         deerFolder = deerFolder,
@@ -51,7 +52,9 @@ plot(
         simColors = simColors,
         plotType='3plotsWoffset', #'4plots','3plots' and '3plotsWoffset'
         simDistOffset = simDistOffset,
-        distanceXlim = [1.3,8]
+        distanceXlim = [1.3,8],
+        suptitle = "TM53-271 WT", #title to be shown on top of all
+        plotFolder = plotFolder, # folder for saving the plot files (png, pdf and eps)
 )
 ```
 If you do not want to copy DEERplot_noGUI.py to every folder you can put it somewhere and do the following on top of your python file:

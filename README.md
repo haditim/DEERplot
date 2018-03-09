@@ -8,8 +8,6 @@ If you want to use the UI for selecting the files and ploting them interactively
 ## Use DEERplot_noGUI.py with seperate files
 You can do the following when using DEERplot_noGUI.py:
 ```python
-from DEERplot_noGUI import *
-
 # Enter the folder name for DeerAnalysis files. You can also leave this empty and add folder to file names
 deerFolder = ''
 # Enter DeerAnalysis files list here
@@ -55,30 +53,30 @@ dateInPlot = False,
 showPlot = True,
 # Finally, we call the function to plot
 plot(
-        deerFolder = deerFolder,
-        filesArr = deerFiles,
-        titlesArr = deerTitles,
-        deerColors = deerColors,
-        backgroundColors = [], # Color array for backgrounds 
-        offsetArr = offsetArr,
-        mLineWidthArr = [], # LW for all plots
-        oLineWidthArr = [], # LW for time trace and form factor offsets
-        deerDistOffset = deerDistOffset,
-        simFolder = simFolder,
-        simFiles = simFiles,
-        simTitles = simTitles,
-        simColors = simColors,
-        plotType='3plotsWoffset', #'4plots','3plots' and '3plotsWoffset'
-        simDistOffset = simDistOffset,
-        distanceXlim = distanceXlim,
-		timeTraceXlim = timeTraceXlim,
-        fitXlim = fitXlim,
-        suptitle = suptitle,
-        plotFolder = plotFolder, # folder for saving the plot files (png, pdf and eps)
-		rmFitDistr = rmFitDistr,
-		plotExts = plotExts,
-		dateInPlot = dateInPlot,
-        showPlot = showPlot,
+    deerFolder = deerFolder,
+    filesArr = deerFiles,
+    titlesArr = deerTitles,
+    deerColors = deerColors,
+    backgroundColors = [],
+    offsetArr = offsetArr,
+    mLineWidthArr = [], 
+    oLineWidthArr = [], 
+    deerDistOffset = deerDistOffset,
+    simFolder = simFolder,
+    simFiles = simFiles,
+    simTitles = simTitles,
+    simColors = simColors,
+    plotType='3plotsWoffset', #'4plots','3plots' and '3plotsWoffset'
+    simDistOffset = simDistOffset,
+    distanceXlim = distanceXlim,
+    timeTraceXlim = timeTraceXlim,
+    fitXlim = fitXlim,
+    suptitle = suptitle,
+    plotFolder = plotFolder,
+    rmFitDistr = rmFitDistr,
+    plotExts = plotExts,
+    dateInPlot = dateInPlot,
+    showPlot = showPlot,
 )
 ```
 If you do not want to copy DEERplot_noGUI.py to every folder you can put it somewhere and do the following on top of your python file:

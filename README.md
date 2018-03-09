@@ -17,12 +17,12 @@ deerTitles = ['apo','VO']
 # And colors if you want
 deerColors = ['cyan','magenta']
 # Also background colors. Default value is always black unless you have black for main color. Then this will be gray.
-backgroundColors = ['black','black'],
+backgroundColors = ['black','black']
 # Offset for time trace and form factor. I make offset for all data to be seen without overlaps.
 offsetArr = [0, .2]
 # Set the linewidth for your plots. Default values are 4 for mLineWidth(main line) and 2.5 for oLineWidth (background line).
-mLineWidthArr = [],
-oLineWidthArr = [],
+mLineWidthArr = []
+oLineWidthArr = []
 # upper panel or lower panel in distance dist. (only used when using plotType='3plotsWoffset')
 deerDistOffset = [0, 1]
 # Enter the folder name for simulation files. You can also leave this empty and add folder to file names
@@ -36,21 +36,21 @@ simColors = ['black']
 # upper panel or lower panel in distance dist. (only used when using plotType='3plotsWoffset')
 simDistOffset = [0]
 # x-range for time trace, fit and distance distribution plots. You can also leave this empty
-timeTraceXlim = [],
+timeTraceXlim = []
 fitXlim = []
 distanceXlim = [1,8]
 # Title to be shown on top of plots.
-suptitle = "TM287/288 WT", 
+suptitle = "TM287/288 WT"
 # Set the folder for saving plots. By default this will use current folder.
 plotFolder = os.path.realpath(__file__)
 # Remove some from fit (only fitted function is removed) plot and distance plot (for when you do not have a signal but want to show the primary)
-rmFitDistr = [0], 
+rmFitDistr = []
 # Plot file extensions.
-plotExts = ['png','pdf','eps','jpg'],
+plotExts = ['png','pdf','eps','jpg']
 # If you want your plot files to have date on them, make this True.
-dateInPlot = False,
+dateInPlot = False
 # If you want the function to show you the plot at the end, make this True.
-showPlot = True,
+showPlot = True
 # Finally, we call the function to plot
 plot(
     deerFolder = deerFolder,

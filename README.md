@@ -14,12 +14,17 @@ from DEERplot_noGUI import *
 deerFolder = ''
 # Enter DeerAnalysis files list here
 deerFiles = ['apo_d2_2200ns_DEER_bckg.dat','VO_d2_2200ns_DEER_bckg.dat']
-# Enter titles if you want
+# Enter titles if you want. Otherwise the filenames will become titles.
 deerTitles = ['apo','VO']
 # And colors if you want
 deerColors = ['cyan','magenta']
-# Offset for time trace and form factor
+# Also background colors. Default value is always black unless you have black for main color. Then this will be gray.
+backgroundColors = ['black','black'],
+# Offset for time trace and form factor. I make offset for all data to be seen without overlaps.
 offsetArr = [0, .2]
+# Set the linewidth for your plots. Default values are 4 for mLineWidth(main line) and 2.5 for oLineWidth (background line).
+mLineWidthArr = [],
+oLineWidthArr = [],
 # upper panel or lower panel in distance dist. (only used when using plotType='3plotsWoffset')
 deerDistOffset = [0, 1]
 # Enter the folder name for simulation files. You can also leave this empty and add folder to file names
@@ -32,10 +37,22 @@ simTitles = ['4Q4H apo crystal']
 simColors = ['black']
 # upper panel or lower panel in distance dist. (only used when using plotType='3plotsWoffset')
 simDistOffset = [0]
-# x-range for distance distribution plots. You can also leave this empty
+# x-range for time trace, fit and distance distribution plots. You can also leave this empty
+timeTraceXlim = [],
+fitXlim = []
 distanceXlim = [1,8]
-# Set the folder for saving plots
+# Title to be shown on top of plots.
+suptitle = "TM287/288 WT", 
+# Set the folder for saving plots. By default this will use current folder.
 plotFolder = os.path.realpath(__file__)
+# Remove some from fit (only fitted function is removed) plot and distance plot (for when you do not have a signal but want to show the primary)
+rmFitDistr = [0], 
+# Plot file extensions.
+plotExts = ['png','pdf','eps','jpg'],
+# If you want your plot files to have date on them, make this True.
+dateInPlot = False,
+# If you want the function to show you the plot at the end, make this True.
+showPlot = True,
 # Finally, we call the function to plot
 plot(
         deerFolder = deerFolder,
@@ -53,10 +70,15 @@ plot(
         simColors = simColors,
         plotType='3plotsWoffset', #'4plots','3plots' and '3plotsWoffset'
         simDistOffset = simDistOffset,
-        distanceXlim = [1.3,8],
-        suptitle = "TM287/288 WT", #title to be shown on top of all
+        distanceXlim = distanceXlim,
+		timeTraceXlim = timeTraceXlim,
+        fitXlim = fitXlim,
+        suptitle = suptitle,
         plotFolder = plotFolder, # folder for saving the plot files (png, pdf and eps)
-	rmFitDistr = [0], # remove some from fit plot and distance plot (for when you do not have a signal but want to she the primary)
+		rmFitDistr = rmFitDistr,
+		plotExts = plotExts,
+		dateInPlot = dateInPlot,
+        showPlot = showPlot,
 )
 ```
 If you do not want to copy DEERplot_noGUI.py to every folder you can put it somewhere and do the following on top of your python file:

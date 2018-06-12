@@ -11,11 +11,6 @@ from matplotlib import style
 from itertools import cycle
 from matplotlib import colors as mcolors
 
-# My favorite styles. You can find all in here: http://tonysyu.github.io/raw_content/matplotlib-style-gallery/gallery.html
-#style.use('ggplot')
-style.use('seaborn-whitegrid')
-#style.use('bmh')
-#style.use('fivethirtyeight')
 defColorArr = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
 defCol = cycle(defColorArr)
 
@@ -75,8 +70,13 @@ def plot(
         dateInPlot = False,
         showPlot = True,
         timeTraceXlim = [],
-        fitXlim = []
+        fitXlim = [],
+        figSize = (14.4, 9.6),
+        figDpi = 250,
+        figStyle = 'seaborn-whitegrid',  # seaborn-whitegrid, ggplot, bmh, fivethirtyeight, You can find all in here: http://tonysyu.github.io/raw_content/matplotlib-style-gallery/gallery.html
+        figGrid = True,
 ):
+    style.use(figStyle)
     #Handling Offset for '3plotsWoffset'
     maxDistrInt = 0
     if plotType == '3plotsWoffset':
@@ -101,14 +101,14 @@ def plot(
                     continue
     if plotType == '4plots':
         fig, ((ax0, ax1), (ax2, ax3)) = plt.subplots(nrows=2, ncols=2)
-        fig.set_size_inches(14.4, 9.6, forward=True)
+        fig.set_size_inches(figSize[0], figSize[1], forward=True)
         st = fig.suptitle(suptitle, fontsize="x-large")
     elif plotType == '3plots' or plotType == '3plotsWoffset':
         fig = plt.figure()
         ax0 = plt.subplot2grid((2,2),(0,0))
         ax1 = plt.subplot2grid((2,2),(1,0))
         ax2 = plt.subplot2grid((2,2),(0,1), rowspan=2)
-        fig.set_size_inches(14.4, 9.6, forward=True)
+        fig.set_size_inches(figSize[0], figSize[1], forward=True)
         st = fig.suptitle(suptitle, fontsize="x-large")
     if filesArr:
         for i, val in enumerate(filesArr):
@@ -171,6 +171,7 @@ def plot(
                 ax2.set_xlabel(r'distance [$nm$]', weight='bold')
                 ax2.set_title('Distance distribution normalized to area')
                 ax2.set_yticks([])
+                ax2.set_ylim(0,maxDistrInt*(1+max(deerDistOffset)))
                 if distanceXlim: ax2.set_xlim(distanceXlim[0],distanceXlim[1])
                 if plotType == '4plots':
                     ax3.plot(data.distr_ax[0],data.distr_ax[1]/max(data.distr_ax[1]), label=title, color="%s" % colMain, linewidth=mLineWidth)
@@ -197,16 +198,21 @@ def plot(
     #fig.set_size_inches(30, fig.get_figheight(), forward=True)
     #bbox = fig.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
     #width, height, dpi = bbox.width*fig.dpi, bbox.height*fig.dpi, fig.dpi
+    if not figGrid:
+        for i, ax in enumerate(fig.axes):
+            ax.grid(False)
     if plotExts:
         #print plotFolder
         for val in plotExts:
             figName = os.path.join(os.path.dirname(plotFolder),os.path.basename(plotFolder),time.strftime("%Y%m%d-")+suptitle.replace(' ','-')+"-PLOT."+val) if dateInPlot else os.path.join(os.path.dirname(plotFolder),os.path.basename(plotFolder),suptitle.replace(' ','-')+"-PLOT."+val)
             try:
-                fig.savefig(figName, bbox_inches=0, transparent=True)
+                fig.tight_layout()
+                fig.savefig(figName, bbox_inches=0, dpi=figDpi, transparent=True)
                 #print "Figure saved: ",figName
             except Exception as e:
                 print e
     if showPlot:
+        fig.tight_layout()
         plt.show(block=True)
         plt.close("all")
     else:
